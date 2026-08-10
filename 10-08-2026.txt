@@ -19,26 +19,6 @@ STUDENT5                       TABLE
 STUDENT2                       TABLE
 STUDENT11                      TABLE
 
-SQL> create table student1(
-  2  regno number(5),
-  3  name varchar2(20),
-  4  email varchar2(20),
-  5  age number(3),
-  6  gender char,
-  7  deptno(2)
-  8  );
-deptno(2)
-      *
-ERROR at line 7:
-ORA-00902: invalid datatype
-
-
-SQL> /
-deptno(2)
-      *
-ERROR at line 7:
-ORA-00902: invalid datatype
-
 
 SQL> create table student1(
   2  regno number(5),
@@ -55,19 +35,6 @@ SQL> alter table student1 add constraint stu_pk primary key(regno);
 
 Table altered.
 
-SQL> alter table student1 add constraint stu_fk foreign key(deptno) reference dept(deptno);
-alter table student1 add constraint stu_fk foreign key(deptno) reference dept(deptno)
-                                                               *
-ERROR at line 1:
-ORA-00905: missing keyword
-
-
-SQL> alter table student1 add constraint stu_fk foreign key(deptno) references dept(deptno);
-alter table student1 add constraint stu_fk foreign key(deptno) references dept(deptno)
-                                                                          *
-ERROR at line 1:
-ORA-00942: table or view does not exist
-
 
 SQL> select * from tab;
 
@@ -81,22 +48,6 @@ STUDENT11                      TABLE
 STUDENT1                       TABLE
 
 6 rows selected.
-
-SQL> create table dept;
-create table dept
-                *
-ERROR at line 1:
-ORA-00906: missing left parenthesis
-
-
-SQL> create table dept(
-  2  deptno number(2) primary key,
-  3  deptname varchar2(10),
-  4  );
-)
-*
-ERROR at line 4:
-ORA-00904: : invalid identifier
 
 
 SQL> create table dept(
@@ -114,22 +65,9 @@ SQL> alter table student1 add constraint stu_fk foreign key(deptno) references d
 
 Table altered.
 
-SQL> alter table student1 add constraint stu_un unique(email;
-alter table student1 add constraint stu_un unique(email
-                                                      *
-ERROR at line 1:
-ORA-00907: missing right parenthesis
-
-
 SQL> alter table student1 add constraint stu_un unique(email);
 
 Table altered.
-
-SQL> alter table student1 add constraint stu_chk check(age>=);
-alter table student1 add constraint stu_chk check(age>=)
-                                                       *
-ERROR at line 1:
-ORA-00936: missing expression
 
 
 SQL> alter table student1 add constraint stu_chk check(age>=18);
@@ -153,12 +91,6 @@ SQL>  desc student1
  AGE                                                NUMBER(3)
  GENDER                                             CHAR(1)
  DEPTNO                                             NUMBER(2)
-
-SQL> alter table student1 modify general default('F');
-alter table student1 modify general default('F')
-                            *
-ERROR at line 1:
-ORA-00904: "GENERAL": invalid identifier
 
 
 SQL> alter table student1 modify gender default('F');
