@@ -1,0 +1,297 @@
+
+SQL*Plus: Release 11.2.0.1.0 Production on Mon Oct 12 05:23:31 2026
+
+Copyright (c) 1982, 2010, Oracle.  All rights reserved.
+
+Enter user-name: A179@db2021
+Enter password:
+
+Connected to:
+Oracle Database 11g Release 11.2.0.1.0 - Production
+
+SQL> CREATE TABLE LIBRARY (
+  2  BOOK_ID INT PRIMARY KEY,
+  3  TITLE VARCHAR(100),
+  4  AUTHOR VARCHAR(100),
+  5  GENRE VARCHAR(50),
+  6  PRICE DECIMAL(10,2)
+  7  );
+
+Table created.
+
+SQL> INSERT INTO LIBRARY VALUES (1, 'A brief history of time', 'stephan hawking', 'science', 450.00);
+
+1 row created.
+
+SQL> INSERT INTO LIBRARY VALUES (2, 'The hobbit', 'r.tony', 'fantasy', 350.00);
+
+1 row created.
+
+SQL> INSERT INTO LIBRARY VALUES (3, 'cosmos', 'natasha', 'science', 600.00);
+
+1 row created.
+
+SQL> INSERT INTO LIBRARY VALUES (4, 'clean code', 'robert c martin', 'technology', 750.00);
+
+1 row created.
+
+SQL> SELECT TITLE, AUTHOR
+  2  FROM LIBRARY;
+
+TITLE
+--------------------------------------------------------------------------------
+AUTHOR
+--------------------------------------------------------------------------------
+A brief history of time
+stephan hawking
+
+The hobbit
+r.tony
+
+cosmos
+natasha
+
+
+TITLE
+--------------------------------------------------------------------------------
+AUTHOR
+--------------------------------------------------------------------------------
+clean code
+robert c martin
+
+
+SQL> SELECT *
+  2  FROM LIBRARY
+  3  WHERE GENRE = 'science';
+
+   BOOK_ID
+----------
+TITLE
+--------------------------------------------------------------------------------
+AUTHOR
+--------------------------------------------------------------------------------
+GENRE                                                   PRICE
+-------------------------------------------------- ----------
+         1
+A brief history of time
+stephan hawking
+science                                                   450
+
+
+   BOOK_ID
+----------
+TITLE
+--------------------------------------------------------------------------------
+AUTHOR
+--------------------------------------------------------------------------------
+GENRE                                                   PRICE
+-------------------------------------------------- ----------
+         3
+cosmos
+natasha
+science                                                   600
+
+
+SQL> SELECT *
+  2  FROM LIBRARY
+  3  WHERE PRICE < 500;
+
+   BOOK_ID
+----------
+TITLE
+--------------------------------------------------------------------------------
+AUTHOR
+--------------------------------------------------------------------------------
+GENRE                                                   PRICE
+-------------------------------------------------- ----------
+         1
+A brief history of time
+stephan hawking
+science                                                   450
+
+
+   BOOK_ID
+----------
+TITLE
+--------------------------------------------------------------------------------
+AUTHOR
+--------------------------------------------------------------------------------
+GENRE                                                   PRICE
+-------------------------------------------------- ----------
+         2
+The hobbit
+r.tony
+fantasy                                                   350
+
+
+SQL> SELECT *
+  2  FROM LIBRARY
+  3  ORDER BY PRICE DESC;
+
+   BOOK_ID
+----------
+TITLE
+--------------------------------------------------------------------------------
+AUTHOR
+--------------------------------------------------------------------------------
+GENRE                                                   PRICE
+-------------------------------------------------- ----------
+         4
+clean code
+robert c martin
+technology                                                750
+
+
+   BOOK_ID
+----------
+TITLE
+--------------------------------------------------------------------------------
+AUTHOR
+--------------------------------------------------------------------------------
+GENRE                                                   PRICE
+-------------------------------------------------- ----------
+         3
+cosmos
+natasha
+science                                                   600
+
+
+   BOOK_ID
+----------
+TITLE
+--------------------------------------------------------------------------------
+AUTHOR
+--------------------------------------------------------------------------------
+GENRE                                                   PRICE
+-------------------------------------------------- ----------
+         1
+A brief history of time
+stephan hawking
+science                                                   450
+
+
+   BOOK_ID
+----------
+TITLE
+--------------------------------------------------------------------------------
+AUTHOR
+--------------------------------------------------------------------------------
+GENRE                                                   PRICE
+-------------------------------------------------- ----------
+         2
+The hobbit
+r.tony
+fantasy                                                   350
+
+
+SQL> CREATE TABLE EMPLOYEE(
+  2  EMP_ID INT PRIMARY KEY,
+  3  EMP_NAME VARCHAR(15),
+  4  DEPT VARCHAR(10),
+  5  SALARY DECIMAL(10,2)
+  6  );
+
+Table created.
+
+SQL> CREATE TABLE MANAGER (
+  2  EMP_NAME VARCHAR(15)
+  3  );
+
+Table created.
+
+SQL> INSERT INTO EMPLOYEE VALUES (101, 'alice smith', 'HR',55000):
+  2
+SQL> INSERT INTO EMPLOYEE VALUES (101, 'alice smith', 'HR',55000);
+
+1 row created.
+
+SQL> INSERT INTO EMPLOYEE VALUES (102, 'bob jones', 'FINANCE',62000);
+
+1 row created.
+
+SQL> INSERT INTO EMPLOYEE VALUES (103, 'charlie brown', 'IT',70000);
+
+1 row created.
+
+SQL> INSERT INTO EMPLOYEE VALUES (104, 'diana prince', 'HR',58000);
+
+1 row created.
+
+SQL> INSERT INTO EMPLOYEE VALUES (105, 'evan wright', 'MARKETING',48000);
+
+1 row created.
+
+SQL> INSERT INTO MANAGER VALUES('alice smith');
+
+1 row created.
+
+SQL> INSERT INTO MANAGER VALUES('charlie brown');
+
+1 row created.
+
+SQL> INSERT INTO MANAGER VALUES('frank castle');
+
+1 row created.
+
+SQL> SELECT *
+  2  FROM EMPLOYEE
+  3  WHERE DEPT IN('HR', 'FINANCE');
+
+    EMP_ID EMP_NAME        DEPT           SALARY
+---------- --------------- ---------- ----------
+       101 alice smith     HR              55000
+       102 bob jones       FINANCE         62000
+       104 diana prince    HR              58000
+
+SQL> SELECT *
+  2  FROM EMPLOYEE E
+  3  WHERE EXISTS (
+  4  SELECT 1
+  5  FROM MANAGER M
+  6  WHERE M.EMP_NAME = E.EMP_NAME
+  7  );
+
+    EMP_ID EMP_NAME        DEPT           SALARY
+---------- --------------- ---------- ----------
+       101 alice smith     HR              55000
+       103 charlie brown   IT              70000
+
+
+SQL> SELECT *
+  2  FROM EMPLOYEE E
+  3  WHERE NOT EXISTS (
+  4  SELECT 1
+  5  FROM MANAGER M
+  6  WHERE M.EMP_NAME = E.EMP_NAME
+  7  );
+
+    EMP_ID EMP_NAME        DEPT           SALARY
+---------- --------------- ---------- ----------
+       105 evan wright     MARKETING       48000
+       102 bob jones       FINANCE         62000
+       104 diana prince    HR              58000
+
+
+SQL> SELECT EMP_NAME FROM EMPLOYEE
+  2  UNION
+  3  SELECT EMP_NAME FROM MANAGER;
+
+EMP_NAME
+---------------
+alice smith
+bob jones
+charlie brown
+diana prince
+evan wright
+frank castle
+
+6 rows selected.
+
+SQL> SELECT EMP_NAME FROM EMPLOYEE
+  2  INTERSECT
+  3  SELECT EMP_NAME FROM MANAGER;
+
+EMP_NAME
+---------------
+alice smith
+charlie brown
